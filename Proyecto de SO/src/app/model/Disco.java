@@ -1,4 +1,4 @@
-package sistemaarchivos;
+package app.model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
