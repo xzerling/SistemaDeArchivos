@@ -163,6 +163,7 @@ public class FXMLPrincipalController implements Initializable
      * Este metodo cambia el stackpane a el panel de consultar disponibilidad de canchas
      * @param event 
      */
+    @FXML
     public void cambiarDisponibilidadCanchaPane(ActionEvent event)
     {        
         this.consultarDisponibilidadPane.toFront();
@@ -177,6 +178,7 @@ public class FXMLPrincipalController implements Initializable
      * Este metodo cambia el stackpane a el panel de cancelar reserva de canchas
      * @param event 
      */
+    @FXML
     public void cambiarCancelarCanchaPane(ActionEvent event)
     {
         this.cancelarReservaPane.toFront();
@@ -190,6 +192,7 @@ public class FXMLPrincipalController implements Initializable
      * Este metodo cambia el stackpane a el panel de revisar multas
      * @param event 
      */
+    @FXML
     public void cambiarRevisarMultaPane(ActionEvent event)
     {
         this.revisarMultasPane.toFront();
@@ -203,6 +206,7 @@ public class FXMLPrincipalController implements Initializable
      * Este metodo cambia el stackpane a el panel de validar asistencia
      * @param event 
      */
+    @FXML
     public void cambiarValidarAsistenciaPane(ActionEvent event)
     {
         this.validarAsistenciaPane.toFront();
@@ -216,6 +220,7 @@ public class FXMLPrincipalController implements Initializable
      * Este metodo cambia el stackpane a el panel de menú principal
      * @param event 
      */
+    @FXML
     public void cambiarMenuPrincipaPane(ActionEvent event)
     {
         this.menuPrincipalPane.toFront();
@@ -232,6 +237,7 @@ public class FXMLPrincipalController implements Initializable
      * Este metodo cierra la aplicacion completamente
      * @param event 
      */
+    @FXML
     public void cerrarAplicacion(ActionEvent event) throws IOException 
     {
         app.model.CommandNames.boxMessage = "¿Esta seguro que desea salir de la aplicacion?";
@@ -251,6 +257,7 @@ public class FXMLPrincipalController implements Initializable
         }        
     }
     
+    @FXML
     public void datosTablaConsulta()
     {  
         this.vaciarTablaConsulta();
@@ -422,6 +429,7 @@ public class FXMLPrincipalController implements Initializable
         return false;
     }
     
+    @FXML
     public void datosTablaAsistencia()
     {
         vaciarTablaAsistencia();
@@ -454,6 +462,7 @@ public class FXMLPrincipalController implements Initializable
         }         
     }
     
+    @FXML
     public void validarAsistencia()
     {        
         Reserva seleccionado = this.tablaAsistencia.getSelectionModel().getSelectedItem();
@@ -476,6 +485,7 @@ public class FXMLPrincipalController implements Initializable
         }
     }
     
+    @FXML
     public void datosTablaCancelar()
     {
         vaciarTablaCancelar();
@@ -508,6 +518,7 @@ public class FXMLPrincipalController implements Initializable
         }       
     }
     
+    @FXML
     public void cancelarReserva()
     {        
         Reserva seleccionado = this.tablaCancelar.getSelectionModel().getSelectedItem();
@@ -543,6 +554,7 @@ public class FXMLPrincipalController implements Initializable
     }
     
     
+    @FXML
     public void datosTablaMultas()
     {
         vaciarTablaMultas();
@@ -575,6 +587,7 @@ public class FXMLPrincipalController implements Initializable
         }        
     }
     
+    @FXML
     public void mensajePagar()
     {
         Reserva seleccionado = this.tablaMultas.getSelectionModel().getSelectedItem();

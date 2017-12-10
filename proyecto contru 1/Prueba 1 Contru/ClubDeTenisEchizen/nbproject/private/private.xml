@@ -2,17 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Yorch/Documents/NetBeansProjects/ClubDeTenisEchizen/src/app/FXMain.java</file>
-            <file>file:/C:/Users/Yorch/Documents/NetBeansProjects/ClubDeTenisEchizen/src/app/model/Cliente.java</file>
-            <file>file:/C:/Users/Yorch/Documents/NetBeansProjects/ClubDeTenisEchizen/src/app/visual/FXMLPrincipalController.java</file>
-            <file>file:/C:/Users/Yorch/Documents/NetBeansProjects/ClubDeTenisEchizen/src/app/model/Dia.java</file>
-            <file>file:/C:/Users/Yorch/Documents/NetBeansProjects/ClubDeTenisEchizen/src/app/model/Sistema.java</file>
-            <file>file:/C:/Users/Yorch/Documents/NetBeansProjects/ClubDeTenisEchizen/src/app/visual/FXMLReservarCanchaController.java</file>
-            <file>file:/C:/Users/Yorch/Documents/NetBeansProjects/ClubDeTenisEchizen/src/app/model/Cancha.java</file>
-            <file>file:/C:/Users/Yorch/Documents/NetBeansProjects/ClubDeTenisEchizen/src/app/model/Bloque.java</file>
-            <file>file:/C:/Users/Yorch/Documents/NetBeansProjects/ClubDeTenisEchizen/src/app/model/CommandNames.java</file>
-            <file>file:/C:/Users/Yorch/Documents/NetBeansProjects/ClubDeTenisEchizen/src/app/model/Reserva.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

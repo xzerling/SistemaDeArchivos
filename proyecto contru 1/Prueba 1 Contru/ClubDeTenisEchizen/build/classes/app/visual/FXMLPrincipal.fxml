@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -19,13 +25,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.visual.FXMLPrincipalController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.visual.FXMLPrincipalController">
    <children>
       <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
             <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="162.0" prefWidth="622.0">
                <children>
-                  <BorderPane fx:id="consultarDisponibilidadPane" prefHeight="312.0" prefWidth="600.0" visible="false">
+                  <BorderPane fx:id="consultarDisponibilidadPane" prefHeight="312.0" prefWidth="600.0">
                      <center>
                         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                            <children>
@@ -263,7 +269,7 @@
                         </GridPane>
                      </bottom>
                   </BorderPane>
-                  <BorderPane fx:id="menuPrincipalPane" prefHeight="312.0" prefWidth="600.0">
+                  <BorderPane fx:id="menuPrincipalPane" prefHeight="312.0" prefWidth="600.0" visible="false">
                      <center>
                          <GridPane prefHeight="225.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                            <columnConstraints>
@@ -286,7 +292,7 @@
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Revisar multas" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Salir" GridPane.columnIndex="2" GridPane.rowIndex="5" GridPane.valignment="TOP" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Consultar disponibilidad de canchas" textAlignment="CENTER" wrappingWidth="134.41796875" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                              <Button accessibleText="hola mundo" alignment="CENTER" contentDisplay="CENTER" onAction="#cambiarDisponibilidadCanchaPane" prefHeight="50.0" prefWidth="51.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.valignment="CENTER">
+                              <Button alignment="CENTER" contentDisplay="CENTER" onAction="#cambiarDisponibilidadCanchaPane" prefHeight="50.0" prefWidth="51.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.valignment="CENTER">
                                  <graphic>
                                     <ImageView fitHeight="52.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -301,7 +307,7 @@
                                     <Tooltip text="Hacer Transición" />
                                  </tooltip>
                               </Button>
-                              <Button accessibleText="hola mundo" alignment="CENTER" contentDisplay="CENTER" onAction="#cambiarRevisarMultaPane" prefHeight="50.0" prefWidth="51.0" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.valignment="CENTER">
+                              <Button alignment="CENTER" contentDisplay="CENTER" onAction="#cambiarRevisarMultaPane" prefHeight="50.0" prefWidth="51.0" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.valignment="CENTER">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -316,7 +322,7 @@
                                     </ImageView>
                                  </graphic>
                               </Button>
-                              <Button accessibleText="hola mundo" alignment="CENTER" contentDisplay="CENTER" onAction="#cambiarCancelarCanchaPane" prefHeight="50.0" prefWidth="65.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                              <Button alignment="CENTER" contentDisplay="CENTER" onAction="#cambiarCancelarCanchaPane" prefHeight="50.0" prefWidth="65.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -331,7 +337,7 @@
                                     </ImageView>
                                  </graphic>
                               </Button>
-                              <Button accessibleText="hola mundo" alignment="CENTER" contentDisplay="CENTER" onAction="#cambiarValidarAsistenciaPane" prefHeight="50.0" prefWidth="51.0" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                              <Button alignment="CENTER" contentDisplay="CENTER" onAction="#cambiarValidarAsistenciaPane" prefHeight="50.0" prefWidth="51.0" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -346,7 +352,7 @@
                                     </ImageView>
                                  </graphic>
                               </Button>
-                              <Button accessibleText="hola mundo" alignment="CENTER" contentDisplay="CENTER" onAction="#cerrarAplicacion" prefHeight="50.0" prefWidth="51.0" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                              <Button alignment="CENTER" contentDisplay="CENTER" onAction="#cerrarAplicacion" prefHeight="50.0" prefWidth="51.0" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
