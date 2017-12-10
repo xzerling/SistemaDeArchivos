@@ -1,3 +1,5 @@
+package app;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-import sistemaarchivos.BitMap;
-import sistemaarchivos.Bloque;
-import sistemaarchivos.Directorio;
-import sistemaarchivos.Disco;
-import sistemaarchivos.FCB;
+import app.model.BitMap;
+import app.model.Bloque;
+import app.model.Directorio;
+import app.model.Disco;
+import app.model.FCB;
 
 public class ProyectoSO {
 
