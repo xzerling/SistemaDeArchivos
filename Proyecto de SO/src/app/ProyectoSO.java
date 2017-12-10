@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import app.model.BitMap;
-import app.model.Bloque;
+import app.model.Sector;
 import app.model.Directorio;
 import app.model.Disco;
 import app.model.FCB;
@@ -23,18 +23,18 @@ public class ProyectoSO {
     private static Directorio directorio;
     private static Disco disco;
     private static BitMap bitMap;
-    private static int tamBloques;
-    private static int numBloques;
+    private static int tamSectors;
+    private static int numSectors;
     
     public static void main(String[] args) throws FileNotFoundException, IOException, InterruptedException {
         int opc;
         
-        numBloques = 1024;
-        tamBloques = 512;
+        numSectors = 512;
+        tamSectors = 512;
         
         Scanner scan = new Scanner(System.in);
 
-        cargarDisco(numBloques,tamBloques);
+        cargarDisco(numSectors,tamSectors);
         
         System.out.println("1.- Ejecutar Script");
         System.out.println("2.- Ejecutar Menu");
@@ -83,7 +83,7 @@ public class ProyectoSO {
         if(opc ==1)
         {
             System.out.println("Formateando el disco...");
-            formato(numBloques,tamBloques);
+            formato(numSectors,tamSectors);
             System.out.println("\nCreando un archivo llamado archivo1...");
             crear(512,"archivo1");
             System.out.println("\nCreando un archivo llamado archivo2...");
@@ -146,7 +146,7 @@ public class ProyectoSO {
                 switch(opc2){
                     case 1:
                         System.out.println("\nFormatiando el disco...");
-                        formato(numBloques, tamBloques);                        
+                        formato(numSectors, tamSectors);                        
                         break;
                     case 2:
                         System.out.println("\nCreando un archivo...");
@@ -282,9 +282,9 @@ public class ProyectoSO {
         }
     }
 
-    public static void cargarDisco(int numBloques, int tamBloques) throws FileNotFoundException, IOException{
+    public static void cargarDisco(int numSectors, int tamSectors) throws FileNotFoundException, IOException{
         
-        disco = new Disco(numBloques, tamBloques);     
+        disco = new Disco(numSectors, tamSectors);     
         
         ArrayList<String> nombres = new ArrayList<String>();
         ArrayList<Integer> pos = new ArrayList<Integer>();
@@ -342,32 +342,32 @@ public class ProyectoSO {
                 
             }
             else{
-                formato(numBloques,tamBloques);
+                formato(numSectors,tamSectors);
             }
         }
         else{
-            formato(numBloques,tamBloques);
+            formato(numSectors,tamSectors);
         }
     }
     
-    public static void formato(int numBloques, int tamBloques){
-        disco = new Disco(numBloques,tamBloques);
+    public static void formato(int numSectors, int tamSectors){
+        disco = new Disco(numSectors,tamSectors);
         disco.montarDisco();
         directorio = new Directorio();
         bitMap = new BitMap(disco);
         
-        Bloque org = new Bloque(tamBloques);                
+        Sector org = new Sector(tamSectors);                
                 
-        char[] contenido = new char[tamBloques];
+        char[] contenido = new char[tamSectors];
         contenido[0]='1';
         contenido[1]='1';
         
-        for(int i = 2 ; i<tamBloques; i++){
+        for(int i = 2 ; i<tamSectors; i++){
             contenido[i]='0';
         }
         
         org.setContenido(contenido);
-        disco.escribirBloque(1, org);
+        disco.escribirSector(1, org);
     }
 
     public static boolean esUnico(String nombre){
@@ -403,36 +403,36 @@ public class ProyectoSO {
                 reescribirBitMap();
 
                 //FCB nuevo
-                FCB sectorFCB = new FCB(tamBloques,tamaño);
+                FCB sectorFCB = new FCB(tamSectors,tamaño);
                 
                 //agrego el resto de los sectores para guardar los datos del archivo
                 for(int i=0;i<(totalSectores-1); i++){
                     int numSectorI = bitMap.getSectorDisponible();
                     reescribirBitMap();
                     
-                    Bloque bn = new Bloque(tamBloques,numSectorI);
+                    Sector bn = new Sector(tamSectors,numSectorI);
 
                     
                     if (i==totalSectores-2){
-                        bn = new Bloque(tamBloques, (tamaño%tamBloques), numSectorI);
+                        bn = new Sector(tamSectors, (tamaño%tamSectors), numSectorI);
                     }
 
                     //AÑADIR EL PUNTERO DEL NUEVO BLOQUE AL FCB
-                    sectorFCB.getBloques().add(bn);
+                    sectorFCB.getSectors().add(bn);
                     sectorFCB.getPosicion().add(numSectorI);
                     
                     //REGISTRAR EL NUEVO BLOQUE EN EL DISCO
-                    disco.escribirBloque(numSectorI, bn);
+                    disco.escribirSector(numSectorI, bn);
                 }
                 
                 //REGISTRAR EL FCB EN EL DISCO
                 String salida = String.valueOf(sectorFCB.getTamañoArchivo());
-                for (Bloque bloque: sectorFCB.getBloques()){
+                for (Sector bloque: sectorFCB.getSectors()){
                     salida+="-"+String.valueOf(bloque.getId());
                 }
                 
-                Bloque fc = new Bloque(tamBloques,salida.toCharArray());
-                disco.escribirBloque(numSector, fc);
+                Sector fc = new Sector(tamSectors,salida.toCharArray());
+                disco.escribirSector(numSector, fc);
                 
                 //agrego al directorio
                 directorio.getNombres().add(nombre);
@@ -456,9 +456,9 @@ public class ProyectoSO {
                 
                 
                 
-                Bloque dir = new Bloque(tamBloques,salida.toCharArray());
+                Sector dir = new Sector(tamSectors,salida.toCharArray());
                 
-                disco.escribirBloque(0, dir);
+                disco.escribirSector(0, dir);
                 System.out.println("Archivo creado exitosamente!!");
             }
             else
@@ -487,18 +487,18 @@ public class ProyectoSO {
                 directorio.getPos().remove(i);
                 reescribirDirectorio();
 
-                Bloque sectorfcb = disco.leerBloque(posFCB); //obtengo el FCB                    
-                FCB fcb = convertirBloqueToFCB(sectorfcb);
+                Sector sectorfcb = disco.leerSector(posFCB); //obtengo el FCB                    
+                FCB fcb = convertirSectorToFCB(sectorfcb);
 
                 for (Integer id: fcb.getPosicion()){
-                    Bloque bloqueNuevo = new Bloque(tamBloques);
-                    disco.escribirBloque(id, bloqueNuevo);
+                    Sector bloqueNuevo = new Sector(tamSectors);
+                    disco.escribirSector(id, bloqueNuevo);
                     bitMap.addSectorDisponible(id);
                     reescribirBitMap();
                 }
 
-                Bloque bloqueFCB = new Bloque(tamBloques);
-                disco.escribirBloque(posFCB, bloqueFCB);
+                Sector bloqueFCB = new Sector(tamSectors);
+                disco.escribirSector(posFCB, bloqueFCB);
                 
                 flag = true;
                 break;
@@ -527,9 +527,9 @@ public class ProyectoSO {
                 registrandoNombre = true;
             }
         }
-        Bloque dir = new Bloque(tamBloques,salida.toCharArray());
+        Sector dir = new Sector(tamSectors,salida.toCharArray());
 
-        disco.escribirBloque(0, dir);
+        disco.escribirSector(0, dir);
     }
     
     public static void readAt(String nombre, int posInicio){
@@ -541,10 +541,10 @@ public class ProyectoSO {
                 //Encontre el archivo!!!
                 
                 int posFCB = directorio.getPos().get(i);
-                Bloque sectorfcb = disco.leerBloque(posFCB); //obtengo el FCB                    
+                Sector sectorfcb = disco.leerSector(posFCB); //obtengo el FCB                    
 
 
-                FCB fcb = convertirBloqueToFCB(sectorfcb);
+                FCB fcb = convertirSectorToFCB(sectorfcb);
                 
                 if (fcb.getTamañoArchivo()<posInicio){
                     System.out.println("Posicion Incorrecta");
@@ -554,18 +554,18 @@ public class ProyectoSO {
                 System.out.println("Contenido del archivo desde byte: " + posInicio);
                 int contador = 1;
                 int min = 0;
-                int max = contador*tamBloques;
+                int max = contador*tamSectors;
                 
                 for (Integer id: fcb.getPosicion()){
                     
-                    Bloque bloque = disco.leerBloque(id);
+                    Sector bloque = disco.leerSector(id);
                     String content = String.valueOf(bloque.getContenido());
 
 
                     //segmentado
                     if (posInicio<max && posInicio>=min){
                         int begin = posInicio-min;
-                        imprimirBloque(begin,content);
+                        imprimirSector(begin,content);
                     }
 
                     //completo
@@ -577,7 +577,7 @@ public class ProyectoSO {
                     }
                     min = max;
                     contador++;
-                    max = contador*tamBloques;
+                    max = contador*tamSectors;
                 }
                 flag = true;
                 break;
@@ -593,16 +593,16 @@ public class ProyectoSO {
         
         int i = 0;
         boolean flag = false;
-        FCB fcb = new FCB(tamBloques);
+        FCB fcb = new FCB(tamSectors);
         
         for(String name : directorio.getNombres()){
             if(name.equals(nombre)){
                 //Encontre el archivo!!!
                 
                 int posFCB = directorio.getPos().get(i);
-                Bloque sectorfcb = disco.leerBloque(posFCB); //obtengo el FCB                    
+                Sector sectorfcb = disco.leerSector(posFCB); //obtengo el FCB                    
 
-                fcb = convertirBloqueToFCB(sectorfcb);
+                fcb = convertirSectorToFCB(sectorfcb);
                 
                 int byteFinal = pos+escribir.length();
                 
@@ -614,9 +614,9 @@ public class ProyectoSO {
 
                 for (Integer id: fcb.getPosicion()){
                     
-                    Bloque bloque = disco.leerBloque(id);
+                    Sector bloque = disco.leerSector(id);
                     bloque.setId(id);
-                    fcb.getBloques().add(bloque);
+                    fcb.getSectors().add(bloque);
                     
                 }
                 flag = true;
@@ -628,16 +628,16 @@ public class ProyectoSO {
         
         
         int inicioEscribir = pos;
-        int contadorBloques = 1;
+        int contadorSectors = 1;
         
         
-        for (Bloque c: fcb.getBloques()){
+        for (Sector c: fcb.getSectors()){
             
-            if (inicioEscribir<contadorBloques*tamBloques){
+            if (inicioEscribir<contadorSectors*tamSectors){
                 
              
                 
-                int disEscribir = (contadorBloques*tamBloques)-inicioEscribir;
+                int disEscribir = (contadorSectors*tamSectors)-inicioEscribir;
                 
                 if (disEscribir>escribir.length()){
                     String corto = escribir;
@@ -647,8 +647,8 @@ public class ProyectoSO {
                     escribir = "";
                     
                     c.setContenido(nuevo.toCharArray());
-                    disco.escribirBloque(c.getId(),c);
-                    inicioEscribir = contadorBloques*tamBloques;
+                    disco.escribirSector(c.getId(),c);
+                    inicioEscribir = contadorSectors*tamSectors;
                     
                 }
                 else {
@@ -659,10 +659,10 @@ public class ProyectoSO {
                     escribir = escribir.substring(disEscribir);
 
                     c.setContenido(nuevo.toCharArray());
-                    disco.escribirBloque(c.getId(),c);
-                    inicioEscribir = contadorBloques*tamBloques;
+                    disco.escribirSector(c.getId(),c);
+                    inicioEscribir = contadorSectors*tamSectors;
                 }
-                contadorBloques++;
+                contadorSectors++;
             }
             
             if (escribir.length()==0){
@@ -686,15 +686,15 @@ public class ProyectoSO {
                 //Encontre el archivo!!!
                 
                 int posFCB = directorio.getPos().get(i);
-                Bloque sectorfcb = disco.leerBloque(posFCB); //obtengo el FCB                    
+                Sector sectorfcb = disco.leerSector(posFCB); //obtengo el FCB                    
 
 
-                FCB fcb = convertirBloqueToFCB(sectorfcb);
+                FCB fcb = convertirSectorToFCB(sectorfcb);
 
                 System.out.println("Contenido del archivo: " + nombre);
                 
                 for (Integer id: fcb.getPosicion()){
-                    Bloque bloqueLeido = disco.leerBloque(id);
+                    Sector bloqueLeido = disco.leerSector(id);
                     System.out.println(String.valueOf(bloqueLeido.getContenido()));
                 }
                 flag = true;
@@ -715,12 +715,12 @@ public class ProyectoSO {
         int i = 0;
         
         if(!directorio.getNombres().isEmpty()){
-            System.out.println("Nombre"+"\t"+"Tamaño"+"\t\t"+"Bloques");
+            System.out.println("Nombre"+"\t"+"Tamaño"+"\t\t"+"Sectors");
             for(String nombre : directorio.getNombres()){
 
                 int posFCB = directorio.getPos().get(i); 
-                Bloque b = disco.leerBloque(posFCB);
-                FCB fcb = convertirBloqueToFCB(b);
+                Sector b = disco.leerSector(posFCB);
+                FCB fcb = convertirSectorToFCB(b);
                 
                 System.out.println(nombre + "\t" + fcb.getTamañoArchivo() + " (bytes)" + "\t" + fcb.getPosicion().size());
                 i++;
@@ -733,7 +733,7 @@ public class ProyectoSO {
     
     //Retorna true si la linea "sector" corresponde a una linea vacia.
     private static boolean compararVacio(String sector) {
-        Bloque vacio = new Bloque(tamBloques);
+        Sector vacio = new Sector(tamSectors);
         
         String sec = String.valueOf(vacio.getContenido());
         
@@ -748,17 +748,17 @@ public class ProyectoSO {
         
         String nuevo = "";
         
-        for(int i=0; i<tamBloques; i++){
+        for(int i=0; i<tamSectors; i++){
             nuevo+=String.valueOf(bitMap.getEspacios().get(i));
         }
         
-        Bloque org = new Bloque(tamBloques);
+        Sector org = new Sector(tamSectors);
         org.setContenido(nuevo.toCharArray());
-        disco.escribirBloque(1, org);  
+        disco.escribirSector(1, org);  
     }
 
-    private static FCB convertirBloqueToFCB(Bloque sectorfcb) {
-        FCB salida = new FCB(tamBloques);
+    private static FCB convertirSectorToFCB(Sector sectorfcb) {
+        FCB salida = new FCB(tamSectors);
         salida.setContenido(sectorfcb.getContenido());
         
         char[] linea = sectorfcb.getContenido();
@@ -810,7 +810,7 @@ public class ProyectoSO {
         return salida;
     }
 
-    private static void imprimirBloque(int value, String contenido) {
+    private static void imprimirSector(int value, String contenido) {
         char[] cont = contenido.toCharArray();
         
         for (int i = 0; i < cont.length; i++) {

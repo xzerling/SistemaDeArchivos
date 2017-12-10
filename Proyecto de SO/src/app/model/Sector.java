@@ -9,50 +9,50 @@ package app.model;
  *
  * @author christian
  */
-public class Bloque {
+public class Sector{
     
     private char[] contenido;
     private int id;
     
-    public Bloque(int tamBloque) {
+    public Sector(int tamSector) {
         this.id = -1;
-        this.contenido = new char[tamBloque];
+        this.contenido = new char[tamSector];
         
-        for (int i=0; i<tamBloque; i++){
+        for (int i=0; i<tamSector; i++){
             contenido[i]=' ';
         }
     }
     
-    public Bloque(int tamBloque, char[] conten) {
+    public Sector(int tamSector, char[] conten) {
         this.id = id;
-        this.contenido = new char[tamBloque];
+        this.contenido = new char[tamSector];
         
         for (int i=0; i<conten.length; i++){
             contenido[i]=conten[i];
         }
         
-        for (int i=conten.length; i<tamBloque; i++){
+        for (int i=conten.length; i<tamSector; i++){
             contenido[i]=' ';
         }
     }
     
-    public Bloque(int tamBloque, int id) {
+    public Sector(int tamSector, int id) {
         this.id = id;
-        this.contenido = new char[tamBloque];
+        this.contenido = new char[tamSector];
         
-        for (int i=0; i<tamBloque; i++){
+        for (int i=0; i<tamSector; i++){
             contenido[i]='*';
         }
     }
     
-    public Bloque(int tamBloque, int bytesOcupar, int id) {
+    public Sector(int tamSector, int bytesOcupar, int id) {
         this.id = id;
-        this.contenido = new char[tamBloque];
+        this.contenido = new char[tamSector];
         
         for (int i=0; i<bytesOcupar; i++){
             contenido[i]='*';
         }
-        for (int i=bytesOcupar; i<tamBloque; i++){
+        for (int i=bytesOcupar; i<tamSector; i++){
             contenido[i]=' ';
         }
     }

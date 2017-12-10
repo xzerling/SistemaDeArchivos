@@ -6,80 +6,93 @@ package app.model;
 import java.util.ArrayList;
 
 
-public class FCB {
+public class FCB 
+{
     private int tamañoArchivo;
-    private int tamañoBloques;
+    private int tamañoSectors;
     private char[] contenido;
-    private ArrayList<Bloque> bloques;
+    private ArrayList<Sector> bloques;
     private ArrayList<Integer> posicion;
 
 
-    public FCB(int tamBloques) {  
-        this.tamañoBloques = tamBloques;
+    public FCB(int tamSectors) 
+    {  
+        this.tamañoSectors = tamSectors;
         this.bloques = new ArrayList<>();
         this.posicion = new ArrayList<>();
         
-        this.contenido = new char[tamBloques];
+        this.contenido = new char[tamSectors];
         
-        for (int i=0; i<tamBloques; i++){
+        for (int i=0; i<tamSectors; i++)
+        {
             contenido[i]=' ';
         }
     }
 
-    public FCB(int tamBloques, int tamArchivo) {  
-        this.tamañoBloques = tamBloques;
+    public FCB(int tamSectors, int tamArchivo) 
+    {  
+        this.tamañoSectors = tamSectors;
         this.tamañoArchivo = tamArchivo;
         this.bloques = new ArrayList<>();
         this.posicion = new ArrayList<>();
         
-        this.contenido = new char[tamBloques];
+        this.contenido = new char[tamSectors];
         
-        for (int i=0; i<tamBloques; i++){
+        for (int i=0; i<tamSectors; i++)
+        {
             contenido[i]=' ';
         }
     }
 
-    public ArrayList<Integer> getPosicion() {
+    public ArrayList<Integer> getPosicion() 
+    {
         return posicion;
     }
 
-    public void setPosicion(ArrayList<Integer> posicion) {
+    public void setPosicion(ArrayList<Integer> posicion)
+    {
         this.posicion = posicion;
     }
     
    
-    public ArrayList<Bloque> getBloques() {
+    public ArrayList<Sector> getSectors() 
+    {
         return bloques;
     }
 
-    public void setBloques(ArrayList<Bloque> bloques) {
+    public void setSectors(ArrayList<Sector> bloques)
+    {
         this.bloques = bloques;
     }
 
-    public int getTamañoBloques() {
-        return tamañoBloques;
+    public int getTamañoSectors()
+    {
+        return tamañoSectors;
     }
 
-    public void setTamañoBloques(int tamaño) {
-        this.tamañoBloques = tamaño;
+    public void setTamañoSectors(int tamaño)
+    {
+        this.tamañoSectors = tamaño;
     }
 
-    public char[] getContenido() {
+    public char[] getContenido()
+    {
         return contenido;
     }
 
-    public void setContenido(char[] contenido) {
+    public void setContenido(char[] contenido)
+    {
         this.contenido = contenido;
     }
 
-    public int getTamañoArchivo() {
+    public int getTamañoArchivo()
+    {
         return tamañoArchivo;
     }
 
-    public void setTamañoArchivo(int tamañoArchivo) {
+    public void setTamañoArchivo(int tamañoArchivo)
+    {
         this.tamañoArchivo = tamañoArchivo;
     }
-
-    
     
 }
