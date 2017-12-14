@@ -54,19 +54,11 @@
                   <AnchorPane prefHeight="266.0" prefWidth="54.0" BorderPane.alignment="CENTER" />
                </right>
                <center>
-                  <TableView fx:id="tablaDisponibilidad" prefHeight="180.0" prefWidth="492.0" BorderPane.alignment="CENTER">
-                     <columns>
-                        <TableColumn fx:id="colNombreArchivo" prefWidth="154.0" resizable="false" text="Nombre" />
-                        <TableColumn fx:id="coltamanioArchivo" prefWidth="178.0" text="Tamaño (bytes)" />
-                        <TableColumn fx:id="colBloques" prefWidth="159.0" text="Bloques" />
-                     </columns>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
+                  <TextArea fx:id="tablaDirectorio" editable="false" prefHeight="255.0" prefWidth="492.0" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets top="10.0" />
                      </BorderPane.margin>
-                  </TableView>
+                  </TextArea>
                </center>
             </BorderPane>
          </center>

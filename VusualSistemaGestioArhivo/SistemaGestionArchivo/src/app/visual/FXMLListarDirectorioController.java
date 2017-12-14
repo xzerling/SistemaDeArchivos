@@ -5,12 +5,26 @@
  */
 package app.visual;
 
+import app.model.Directorio;
+import app.model.FCB;
+import app.model.Sector;
+import app.model.Sistema;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 /**
@@ -21,11 +35,7 @@ import javafx.stage.Stage;
 public class FXMLListarDirectorioController implements Initializable 
 {
     /*variables para tabla de asistencia*/    
-    /*@FXML private TableView<Bloque> tablaDisponibilidad;
-    @FXML private TableColumn<Bloque, Long> colHoraDisponibilidad;
-    @FXML private TableColumn<Bloque, String> colEstadoDisponibilidad;
-    ObservableList<Bloque> bloques;*/
-    
+    @FXML private TextArea tablaDirectorio;   
     @FXML private Button botonVolver;
     
     /**
@@ -34,12 +44,7 @@ public class FXMLListarDirectorioController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
-        /*this.colHoraDisponibilidad.setCellValueFactory( (TableColumn.CellDataFeatures<Bloque,Long> param) -> (ObservableValue) new SimpleLongProperty(param.getValue().getBloque()));
-        this.colEstadoDisponibilidad.setCellValueFactory( (TableColumn.CellDataFeatures<Bloque,String> param) -> (ObservableValue) new SimpleStringProperty(param.getValue().getEstado()));
-        
-        this.bloques = FXCollections.observableArrayList();
-        this.fechaConsulta.setValue(LocalDate.now());
-        this.fechaConsulta.setDayCellFactory(deshabilitarDiasAntes());*/ //para deshabilitar dias antes de la fecha actual
+        tablaDirectorio.setText(Sistema.list());
     }    
     
     /**
@@ -52,4 +57,7 @@ public class FXMLListarDirectorioController implements Initializable
         Stage stage = (Stage) botonVolver.getScene().getWindow();
         stage.hide();
     }
+    
+    
 }
+

@@ -5,9 +5,12 @@
  */
 package app.visual;
 
+import app.model.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,7 +34,11 @@ public class FXMLPrincipalController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        try {
+            Sistema.sistema();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
     
     @FXML
@@ -168,6 +175,7 @@ public class FXMLPrincipalController implements Initializable {
         stage.showAndWait();
         if (app.model.CommandNames.acceptedBox)
         {
+            Sistema.formato(Sistema.numSectors, Sistema.tamSectors);
             app.model.CommandNames.acceptedBox = false;
             /*Borra el disco*/
         }        
