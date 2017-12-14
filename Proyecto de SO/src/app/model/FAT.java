@@ -25,7 +25,7 @@ public class FAT
         this.arregloFat = new int[512];
         this.posActual = -1;
         this.espacioActual.add(1);
-        this.espacioActual.add(1);
+        //this.espacioActual.add(1);
         for (int i = 0; i < disc.getNumSectores(); i++)
         {
             this.espacioActual.add(0);

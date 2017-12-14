@@ -9,8 +9,7 @@ package app.model;
  *
  * @author Zerling
  */
-public class Sector
-{
+public class Sector{
     
     private char[] contenido;
     private int id;
@@ -59,7 +58,7 @@ public class Sector
         
         for (int i=0; i<bytesOcupar; i++)
         {
-            contenido[i]='$';
+            contenido[i]='*';
         }
         for (int i=bytesOcupar; i<tamSector; i++)
         {
