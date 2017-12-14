@@ -6,9 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 import app.model.Sector;
 import app.model.Directorio;
 import app.model.Disco;
@@ -77,8 +75,7 @@ public class ProyectoSO
                         formato(numSectors, tamSectors);                        
                         break;
                     case 2:
-                        System.out.println("\nCrear Archivo");
-                       
+                        System.out.println("\nCrear Archivo");                       
                         
                         System.out.println("Ingrese el nombre");
                         nombre = scan2.nextLine();
