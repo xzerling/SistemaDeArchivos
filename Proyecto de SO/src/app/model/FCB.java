@@ -8,33 +8,33 @@ import java.util.ArrayList;
 
 public class FCB {
     private int tamañoArchivo;
-    private int tamañoSectors;
+    private int tamañoBloques;
     private char[] contenido;
-    private ArrayList<Sector> bloques;
+    private ArrayList<Bloque> bloques;
     private ArrayList<Integer> posicion;
 
 
-    public FCB(int tamSectors) {  
-        this.tamañoSectors = tamSectors;
+    public FCB(int tamBloques) {  
+        this.tamañoBloques = tamBloques;
         this.bloques = new ArrayList<>();
         this.posicion = new ArrayList<>();
         
-        this.contenido = new char[tamSectors];
+        this.contenido = new char[tamBloques];
         
-        for (int i=0; i<tamSectors; i++){
+        for (int i=0; i<tamBloques; i++){
             contenido[i]=' ';
         }
     }
 
-    public FCB(int tamSectors, int tamArchivo) {  
-        this.tamañoSectors = tamSectors;
+    public FCB(int tamBloques, int tamArchivo) {  
+        this.tamañoBloques = tamBloques;
         this.tamañoArchivo = tamArchivo;
         this.bloques = new ArrayList<>();
         this.posicion = new ArrayList<>();
         
-        this.contenido = new char[tamSectors];
+        this.contenido = new char[tamBloques];
         
-        for (int i=0; i<tamSectors; i++){
+        for (int i=0; i<tamBloques; i++){
             contenido[i]=' ';
         }
     }
@@ -48,20 +48,20 @@ public class FCB {
     }
     
    
-    public ArrayList<Sector> getSectors() {
+    public ArrayList<Bloque> getBloques() {
         return bloques;
     }
 
-    public void setSectors(ArrayList<Sector> bloques) {
+    public void setBloques(ArrayList<Bloque> bloques) {
         this.bloques = bloques;
     }
 
-    public int getTamañoSectors() {
-        return tamañoSectors;
+    public int getTamañoBloques() {
+        return tamañoBloques;
     }
 
-    public void setTamañoSectors(int tamaño) {
-        this.tamañoSectors = tamaño;
+    public void setTamañoBloques(int tamaño) {
+        this.tamañoBloques = tamaño;
     }
 
     public char[] getContenido() {

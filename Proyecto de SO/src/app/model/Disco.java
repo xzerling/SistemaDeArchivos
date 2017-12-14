@@ -20,14 +20,14 @@ import static jdk.nashorn.internal.parser.TokenType.EOF;
 public class Disco 
 {
     private File archivoDeDisco;
-    private int numSectors;
-    private int tamSector;
+    private int numBloques;
+    private int tamBloque;
     
-    public Disco(int numSectors, int tamSector)
+    public Disco(int numBloques, int tamBloque)
     {
-        this.numSectors = numSectors;
+        this.numBloques = numBloques;
         this.archivoDeDisco = new File("Disco");
-        this.tamSector=tamSector;
+        this.tamBloque=tamBloque;
     }
     
     public void montarDisco()
@@ -39,9 +39,9 @@ public class Disco
         {
             fichero = new FileWriter(this.archivoDeDisco);
             pw = new PrintWriter(fichero);
-            Sector modelo = new Sector(this.tamSector);
+            Bloque modelo = new Bloque(this.tamBloque);
             
-            for(int i=0; i<this.numSectors; i++)
+            for(int i=0; i<this.numBloques; i++)
             {
                 pw.println(modelo.getContenido());               
             }
@@ -57,20 +57,20 @@ public class Disco
         }
     }    
     
-    public Sector leerSector(int numSector)
+    public Bloque leerBloque(int numBloque)
     {		
-        if(this.numSectors >= numSector && numSector >= 0)
+        if(this.numBloques >= numBloque && numBloque >= 0)
         {
-            Sector bloque = new Sector(this.tamSector);
+            Bloque bloque = new Bloque(this.tamBloque);
             Scanner lector;
             try 
             {
                 lector = new Scanner(this.archivoDeDisco);
                                         
-                for (int i=0; i<numSectors && lector.hasNextLine(); i++) 
+                for (int i=0; i<numBloques && lector.hasNextLine(); i++) 
                 {
                     char linea[] = lector.nextLine().toCharArray();
-                    if(i == numSector)
+                    if(i == numBloque)
                     {
                         bloque.setContenido(linea);
                         lector.close();
@@ -90,7 +90,7 @@ public class Disco
         return null;
     }
 	
-    public void escribirSector(int numSector, Sector bloque)
+    public void escribirBloque(int numBloque, Bloque bloque)
     {
         
         Scanner lector;
@@ -99,7 +99,7 @@ public class Disco
         {
             lector = new Scanner(this.archivoDeDisco);
 
-            for (int i=0; i<numSectors && lector.hasNextLine(); i++) 
+            for (int i=0; i<numBloques && lector.hasNextLine(); i++) 
             {
                 String linea = lector.nextLine();
                 lineas.add(linea);
@@ -120,9 +120,9 @@ public class Disco
             fichero = new FileWriter(this.archivoDeDisco);
             pw = new PrintWriter(fichero);
             
-            for(int i=0; i<this.numSectors; i++)
+            for(int i=0; i<this.numBloques; i++)
             {
-                if (i==numSector){
+                if (i==numBloque){
                     pw.println(bloque.getContenido());
                 }
                 else {
@@ -150,6 +150,6 @@ public class Disco
    
     
     public int getNumSectores() {
-        return this.numSectors;
+        return this.numBloques;
     }
 }

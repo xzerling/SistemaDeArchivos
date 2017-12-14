@@ -6,54 +6,130 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import app.model.Sector;
+import java.util.StringTokenizer;
+import app.model.BitMap;
+import app.model.Bloque;
 import app.model.Directorio;
 import app.model.Disco;
-import app.model.FAT;
 import app.model.FCB;
 
-public class ProyectoSO
-{
+public class ProyectoSO {
 
     /**
      * @param args the command line arguments
      */
     private static Directorio directorio;
     private static Disco disco;
-    private static FAT fat;
-    private static int tamSectors;
-    private static int numSectors;
+    private static BitMap bitMap;
+    private static int tamBloques;
+    private static int numBloques;
     
-    public static void main(String[] args) throws FileNotFoundException, IOException, InterruptedException
-    {        
-        numSectors = 512;
-        tamSectors = 512;
+    public static void main(String[] args) throws FileNotFoundException, IOException, InterruptedException {
+        int opc;
+        
+        numBloques = 1024;
+        tamBloques = 512;
         
         Scanner scan = new Scanner(System.in);
 
-        cargarDisco(numSectors,tamSectors);
+        cargarDisco(numBloques,tamBloques);
         
-        int opcion = 0;
+        System.out.println("1.- Ejecutar Script");
+        System.out.println("2.- Ejecutar Menu");
+        System.out.println("0.- Salir");
+        System.out.print("Opcion: ");
+        try
+        {
+            opc = Integer.parseInt(scan.nextLine());
+            while (opc<0 || opc>2) {
+                System.out.println("La opción ingresada no es valida, por favor intente nuevamente");
+                System.out.println("..............................................................");
+                System.out.println("1.- Ejecutar Script");
+                System.out.println("2.- Ejecutar Menu");
+                System.out.println("0.- Salir");
+                System.out.println("..............................................................");
+                System.out.print("Opcion: ");
+                opc = Integer.parseInt(scan.nextLine());
+                
+            }
+            System.out.println("Ejecutando la Opción "+opc+"..........");
+             
+        }
+        catch (Exception e) 
+        {
+            do {
+                System.out.println("La opción ingresada no es valida, por favor intente nuevamente ingresando 0, 1 o 2");
+                System.out.println("..............................................................");
+                System.out.println("1.- Ejecutar Script");
+                System.out.println("2.- Ejecutar Menu");
+                System.out.println("0.- Salir");
+                System.out.println("..............................................................");
+                System.out.print("Opcion: ");
+                opc = Integer.parseInt(scan.nextLine());  
+            } while (opc!=0 && opc!=2 && opc != 1);
+              
+            
+            
+            
+        }
+        
+        
+        
+        
+        
+        System.out.println();
+        if(opc ==1)
+        {
+            System.out.println("Formateando el disco...");
+            formato(numBloques,tamBloques);
+            System.out.println("\nCreando un archivo llamado archivo1...");
+            crear(512,"archivo1");
+            System.out.println("\nCreando un archivo llamado archivo2...");
+            crear(1024,"archivo2");
+            System.out.println("\nCreando un archivo llamado archivo3...");
+            crear(2048,"archivo3");           
+            System.out.println("\nGenerando lista del directorio...");
+            list();
+            System.out.println("\nEliminando archivo2...");           
+            remove("archivo2");
+            System.out.println("\nGenerando lista del directorio nuevamente...");
+            list();
+            System.out.println("\nAbriendo archivo2...");
+            printFile("archivo2");
+            System.out.println("\nAbriendo archivo3...");
+            printFile("archivo3");
+            System.out.println("\nEscribiendo en un archivo...");
+            //writeAt("archivo1",513,"ab");
+            System.out.println("\nEscribiendo en un archivo...");
+            //writeAt("archivo3",0,"ab");
+            System.out.println("\nLeyendo un archivo...");
+            //readAt("archivo3",0);
+            System.out.println("\nImprimiendo un archivo...");
+            //printFile("archivo1");
+        }
+        else if(opc == 2){
+            int opc2 = 0;
             Scanner scan2 = new Scanner(System.in);
             
             do{
-
-                System.out.println("1) Format");
-                System.out.println("2) Create");
-                System.out.println("3) Remove");
-                System.out.println("4) Read At");
-                System.out.println("5) Write At");
-                System.out.println("6) Print File");
-                System.out.println("7) List");
-                System.out.println("0) Exit");
+                System.out.println("-------- SISTEMA DE ARCHIVOS FULLHD 4K 1 LINK --------");
+                System.out.println();
+                System.out.println("1.- Formatear disco :");
+                System.out.println("2.- Crear archivo :");
+                System.out.println("3.- Borrar archivo :");
+                System.out.println("4.- Leer archivo desde ruta :");
+                System.out.println("5.- Escribir archivo desde ruta :");
+                System.out.println("6.- Mostrar contenido de un archivo : ");
+                System.out.println("7.- Mostrar entradas de directorio : ");
+                System.out.println("0.- Salir :(");
                 System.out.println();
                 System.out.print("Opcion : ");
                 try{
-                    opcion = Integer.parseInt(scan.nextLine());
-                    if (opcion>=0 && opcion<=7)
-                    {
-                        System.out.println("Opción "+opcion);
+                    opc2 = Integer.parseInt(scan.nextLine());
+                    if (opc2>=0 && opc2<=7) {
+                        System.out.println("Ejecutando la Opción "+opc2+"..........");
                     }
                     else
                     {
@@ -61,26 +137,21 @@ public class ProyectoSO
                         
                     }
                 }
-                catch(Exception e )
-                {
+                catch(Exception e ){
                     System.out.println("Opción invalida");
                     
                 }
                 String nombre, texto;
                 int tamaño,pos;
-                switch(opcion)
-                {
+                switch(opc2){
                     case 1:
-                        System.out.println("\nFormateando...");
-                        formato(numSectors, tamSectors);                        
+                        System.out.println("\nFormatiando el disco...");
+                        formato(numBloques, tamBloques);                        
                         break;
                     case 2:
-                        System.out.println("\nCrear Archivo");                       
-                        
-                        System.out.println("Ingrese el nombre");
-                        nombre = scan2.nextLine();
-                        
+                        System.out.println("\nCreando un archivo...");
                         System.out.println("Ingrese el tamaño");
+                        
                         try{
                             tamaño = Integer.parseInt(scan2.nextLine());
                             if (tamaño>0) 
@@ -90,7 +161,8 @@ public class ProyectoSO
                             else
                             {
                                 while(tamaño<=0){
-                                    System.out.println("Solo valores positivos");
+                                    System.out.println("Por favor Ingrese Valores Positivos");
+                                    System.out.println("....................................");
                                     System.out.println("Ingrese el tamaño");
                                     tamaño = Integer.parseInt(scan2.nextLine());
                                 }
@@ -98,33 +170,33 @@ public class ProyectoSO
                         }
                         catch(Exception e)
                         {
-                            do
-                            {
-                                System.out.println("Solo valores positivos");
+                            do {
+                                System.out.println("Por favor Ingrese Valores Positivos");
+                                System.out.println("....................................");
                                 System.out.println("Ingrese el tamaño");
                                 tamaño = Integer.parseInt(scan2.nextLine());
-                                if (tamaño>0)
-                                {
+                                if (tamaño>0) {
                                     break;
                                 }
                             } while (true);
                             
                         }
+                        System.out.println("Ingrese el nombre");
+                        nombre = scan2.nextLine();
                         crear(tamaño, nombre);
                         break;
                     case 3:
-                        System.out.println("\nEliminar archivo");
+                        System.out.println("\nEliminando un archivo...");
                         System.out.println("Ingrese el nombre");
                         nombre = scan2.nextLine();
                         remove(nombre);
                         break;
                     case 4:
-                        System.out.println("\nLeer archivo");
+                        System.out.println("\nLeyendo un archivo...");
                         System.out.println("Ingrese el nombre");
                         nombre = scan2.nextLine();
                         System.out.println("Ingrese la posicion de inicio");
-                        try
-                        {
+                        try{
                            pos = Integer.parseInt(scan2.nextLine());
                             if (pos>=0) 
                             {
@@ -132,9 +204,9 @@ public class ProyectoSO
                             }
                             else
                             {
-                                while(pos<0)
-                                {
-                                    System.out.println("Solo valores positivos");
+                                while(pos<0){
+                                    System.out.println("Por favor Ingrese Valores Positivos");
+                                    System.out.println("....................................");
                                     System.out.println("Ingrese La Posición");
                                     pos = Integer.parseInt(scan2.nextLine());
                                 }
@@ -142,13 +214,12 @@ public class ProyectoSO
                         }
                         catch(Exception e)
                         {
-                            do 
-                            {
-                                System.out.println("Solo valores positivos");
+                            do {
+                                System.out.println("Por favor Ingrese Valores Positivos");
+                                System.out.println("....................................");
                                 System.out.println("Ingrese la Posición");
                                 pos = Integer.parseInt(scan2.nextLine());
-                                if (pos>=0)
-                                {
+                                if (pos>=0) {
                                     break;
                                 }
                             } while (true);
@@ -157,7 +228,7 @@ public class ProyectoSO
                         readAt(nombre, pos);                        
                         break;
                     case 5:
-                        System.out.println("\nEscribiendo archivo");
+                        System.out.println("\nEscribiendo en un archivo...");
                         System.out.println("Ingrese el nombre");
                         nombre = scan2.nextLine();
                         System.out.println("Ingrese la posicion");
@@ -169,9 +240,9 @@ public class ProyectoSO
                             }
                             else
                             {
-                                while(pos<0)
-                                {
-                                    System.out.println("Solo valores positivos");
+                                while(pos<0){
+                                    System.out.println("Por favor Ingrese Valores Positivos");
+                                    System.out.println("....................................");
                                     System.out.println("Ingrese La Posición");
                                     pos = Integer.parseInt(scan2.nextLine());
                                 }
@@ -179,146 +250,140 @@ public class ProyectoSO
                         }
                         catch(Exception e)
                         {
-                            do 
-                            {
-                                System.out.println("Solo valores positivos");
+                            do {
+                                System.out.println("Por favor Ingrese Valores Positivos");
+                                System.out.println("....................................");
                                 System.out.println("Ingrese la Posición");
                                 pos = Integer.parseInt(scan2.nextLine());
-                                if (pos>=0) 
-                                {
+                                if (pos>=0) {
                                     break;
                                 }
                             } while (true);
                             
                         }
                         
-                        System.out.println("Ingresar texto");
+                        System.out.println("Ingrese texto");
                         texto = (scan2.nextLine());
                         writeAt(nombre, pos, texto);                        
                         break;
                     case 6:
-                        System.out.println("\nImprimir archivo");
+                        System.out.println("\nImprimiendo un archivo...");
                         System.out.println("Ingrese el nombre");
                         nombre = scan2.nextLine();
                         printFile(nombre);                        
                         break;
                     case 7:
-                        System.out.println("\nDirectorio: ");
+                        System.out.println("\nGenerando lista del directorio...");
                         list();                        
                         break;
                 }
 
-            }while(opcion!=0);
+            }while(opc2!=0);
         }
+    }
 
-    public static void cargarDisco(int numSectors, int tamSectors) throws FileNotFoundException, IOException
-    {
+    public static void cargarDisco(int numBloques, int tamBloques) throws FileNotFoundException, IOException{
         
-        disco = new Disco(numSectors, tamSectors);     
+        disco = new Disco(numBloques, tamBloques);     
         
         ArrayList<String> nombres = new ArrayList<String>();
         ArrayList<Integer> pos = new ArrayList<Integer>();
         ArrayList<Integer> espacioLibre = new ArrayList<Integer>();
                 
-        File f = new File("Disco");
+        File f = new File( "Disco" );
         
-        if(f.exists())
-        {            
-            BufferedReader entrada = new BufferedReader(new FileReader(f));
+        if(f.exists()){            
+            BufferedReader entrada = new BufferedReader( new FileReader( f ) );
             String sector = entrada.readLine();
-            if(compararVacio(sector) == false)
-            {
+            
+            
+            if(compararVacio(sector)==false){//si el directorio no esta vacio obtiene la informacion
+               
+                
+                //Buscamos todos los nombres y las posiciones del FCB de cada una para agregarla al directorio
                 char[] linea = sector.toCharArray();
                 int ini = 0;
                 int fin = 0;
                 boolean buscandoNombre = true;
-                for (char c : linea)
-                {
-                    if (c!=' ')
-                    {
-                        if (c!='-')
-                        {
+                
+                for (char c : linea) {
+                    if (c!=' '){
+                        if (c!='-'){
                             fin++;
                         }
-                        else
-                        {
+                        else {
                             String text = sector.substring(ini, fin);
                             fin++;
                             ini = fin;
-                            if (buscandoNombre == true)
-                            {
+                            
+                            if (buscandoNombre){
                                 nombres.add(text);
                                 buscandoNombre = false;
                             }
-                            else 
-                            {
+                            else {
                                 pos.add(Integer.parseInt(text));
                                 buscandoNombre = true;
                             }
                         }
                     }
-                    else
-                    {
+                    else {
                         break;
                     }
                 }
+                
                 directorio = new Directorio(pos, nombres);
+                
                 sector = entrada.readLine();
-                for(int i = 0 ; i<sector.length(); i++ )
-                {
+
+                for(int i = 0 ; i<sector.length(); i++ ){
                     espacioLibre.add(Integer.parseInt(sector.charAt(i)+""));
                 }
-                fat = new FAT(espacioLibre);
+                bitMap = new BitMap(espacioLibre);
+                
             }
-            else
-            {
-                formato(numSectors,tamSectors);
+            else{
+                formato(numBloques,tamBloques);
             }
         }
-        else
-        {
-            formato(numSectors,tamSectors);
+        else{
+            formato(numBloques,tamBloques);
         }
     }
     
-    public static void formato(int numSectors, int tamSectors)
-    {
-        disco = new Disco(numSectors,tamSectors);
+    public static void formato(int numBloques, int tamBloques){
+        disco = new Disco(numBloques,tamBloques);
         disco.montarDisco();
         directorio = new Directorio();
-        fat = new FAT(disco);
+        bitMap = new BitMap(disco);
         
-        Sector org = new Sector(tamSectors);                
+        Bloque org = new Bloque(tamBloques);                
                 
-        char[] contenido = new char[tamSectors];
+        char[] contenido = new char[tamBloques];
         contenido[0]='1';
         contenido[1]='1';
         
-        for(int i = 2 ; i<tamSectors; i++)
-        {
+        for(int i = 2 ; i<tamBloques; i++){
             contenido[i]='0';
         }
         
         org.setContenido(contenido);
-        disco.escribirSector(1, org);
+        disco.escribirBloque(1, org);
     }
 
-    public static boolean esUnico(String nombre)
-    {
-        for (int i = 0; i < directorio.getNombres().size(); i++) 
-        {
-            if(directorio.getNombres().get(i).equals(nombre))
-            {
+    public static boolean esUnico(String nombre){
+
+        for(String name : directorio.getNombres()){
+            if(name.equals(nombre)){
                 return false;
             }
         }
         return true;
     }
     
-    public static void crear(int tamaño, String nombre)
-    {
-        if(nombre.length()<=8 && esUnico(nombre))
-        {
+    public static void crear(int tamaño, String nombre){
+
+        if(nombre.length()<=8 && esUnico(nombre)){
+
             int totalSectores = 0;
 
             if(tamaño%512!=0){
@@ -328,34 +393,48 @@ public class ProyectoSO
                 totalSectores = tamaño/512+1;
             }
 
-            if(fat.espacioDisponible(totalSectores))
-            {
-                int numSector = fat.asignarSector();
-                reescribirFAT();
-                FCB sectorFCB = new FCB(tamSectors,tamaño);
-                for(int i=0;i<(totalSectores-1); i++)
-                {
-                    int numSectorI = fat.asignarSector();
-                    reescribirFAT();
-                    Sector bn = new Sector(tamSectors,numSectorI);
+            if(bitMap.hayEspacio(totalSectores)){
+                //Hay espacio en el disco
+
+                //Actualizo el bitMap en memoria
+                int numSector = bitMap.getSectorDisponible();
+                
+                //Actualizo el bitMap en disco
+                reescribirBitMap();
+
+                //FCB nuevo
+                FCB sectorFCB = new FCB(tamBloques,tamaño);
+                
+                //agrego el resto de los sectores para guardar los datos del archivo
+                for(int i=0;i<(totalSectores-1); i++){
+                    int numSectorI = bitMap.getSectorDisponible();
+                    reescribirBitMap();
                     
-                    if (i==totalSectores-2)
-                    {
-                        bn = new Sector(tamSectors, (tamaño%tamSectors), numSectorI);
+                    Bloque bn = new Bloque(tamBloques,numSectorI);
+
+                    
+                    if (i==totalSectores-2){
+                        bn = new Bloque(tamBloques, (tamaño%tamBloques), numSectorI);
                     }
-                    sectorFCB.getSectors().add(bn);
+
+                    //AÑADIR EL PUNTERO DEL NUEVO BLOQUE AL FCB
+                    sectorFCB.getBloques().add(bn);
                     sectorFCB.getPosicion().add(numSectorI);
-                    disco.escribirSector(numSectorI, bn);
+                    
+                    //REGISTRAR EL NUEVO BLOQUE EN EL DISCO
+                    disco.escribirBloque(numSectorI, bn);
                 }
+                
+                //REGISTRAR EL FCB EN EL DISCO
                 String salida = String.valueOf(sectorFCB.getTamañoArchivo());
-                for (Sector bloque: sectorFCB.getSectors())
-                {
+                for (Bloque bloque: sectorFCB.getBloques()){
                     salida+="-"+String.valueOf(bloque.getId());
                 }
                 
-                Sector fc = new Sector(tamSectors,salida.toCharArray());
-                disco.escribirSector(numSector, fc);
+                Bloque fc = new Bloque(tamBloques,salida.toCharArray());
+                disco.escribirBloque(numSector, fc);
                 
+                //agrego al directorio
                 directorio.getNombres().add(nombre);
                 directorio.getPos().add(numSector);
                 
@@ -364,10 +443,8 @@ public class ProyectoSO
                 
                 int total = directorio.getNombres().size();
                 
-                for (int i=0 ; i<total; i++)
-                {
-                    if (registrandoNombre)
-                    {
+                for (int i=0 ; i<total; i++){
+                    if (registrandoNombre){
                         salida+=directorio.getNombres().get(i)+"-";
                         registrandoNombre = false;
                     }
@@ -379,101 +456,97 @@ public class ProyectoSO
                 
                 
                 
-                Sector dir = new Sector(tamSectors,salida.toCharArray());
+                Bloque dir = new Bloque(tamBloques,salida.toCharArray());
                 
-                disco.escribirSector(0, dir);
-                System.out.println("Archivo creado");
+                disco.escribirBloque(0, dir);
+                System.out.println("Archivo creado exitosamente!!");
             }
             else
-                System.out.println("No hay espacio suficiente");
+                System.out.println("No existe espacio para esta solicitud de tamaño");
         }
-        else
-        {
+        else{
             
             if(nombre.length()>9)
-                System.out.println("El tamaño maximo de nombre son 8 caracteres");
+                System.out.println("El tamaño del nombre sobrepasa los 8 caracteres");
             else
-                System.out.println("El nombre ya ha sido utilizado");
+                System.out.println("El nombre del archivo ya existe en el directorio");
         }
     }
     
-    public static void remove(String nombre)
-    {
+    public static void remove(String nombre){
+        
         int i = 0;
-        boolean alerta = false;
-        for(String name : directorio.getNombres())
-        {
-            if(name.equals(nombre))
-            {
+        boolean flag = false;
+        for(String name : directorio.getNombres()){
+            if(name.equals(nombre)){
+                //Encontre el archivo!!!
+
+                //Borro la entrada en el directorio...
                 directorio.getNombres().remove(i);
                 int posFCB = directorio.getPos().get(i);
                 directorio.getPos().remove(i);
                 reescribirDirectorio();
 
-                Sector sectorfcb = disco.leerSector(posFCB);
-                FCB fcb = convertirSectorToFCB(sectorfcb);
+                Bloque sectorfcb = disco.leerBloque(posFCB); //obtengo el FCB                    
+                FCB fcb = convertirBloqueToFCB(sectorfcb);
 
-                for (Integer id: fcb.getPosicion())
-                {
-                    Sector bloqueNuevo = new Sector(tamSectors);
-                    disco.escribirSector(id, bloqueNuevo);
-                    fat.agregarEspacio(id);
-                    reescribirFAT();
+                for (Integer id: fcb.getPosicion()){
+                    Bloque bloqueNuevo = new Bloque(tamBloques);
+                    disco.escribirBloque(id, bloqueNuevo);
+                    bitMap.addSectorDisponible(id);
+                    reescribirBitMap();
                 }
 
-                Sector bloqueFCB = new Sector(tamSectors);
-                disco.escribirSector(posFCB, bloqueFCB);
+                Bloque bloqueFCB = new Bloque(tamBloques);
+                disco.escribirBloque(posFCB, bloqueFCB);
                 
-                alerta = true;
+                flag = true;
                 break;
             }
             i++;
         }
-        if(!alerta)
-        {
-            System.out.println("El archivo no existe");
+        if(!flag){
+            System.out.println("El archivo que intenta eliminar no existe!");
         }
     }
     
-    public static void reescribirDirectorio()
-    {
+    public static void reescribirDirectorio(){
+        
         String salida = "";
         boolean registrandoNombre = true;
 
         int total = directorio.getNombres().size();
 
-        for (int i=0 ; i<total; i++)
-        {
-            if (registrandoNombre)
-            {
+        for (int i=0 ; i<total; i++){
+            if (registrandoNombre){
                 salida+=directorio.getNombres().get(i)+"-";
                 registrandoNombre = false;
             }
-            if (registrandoNombre==false)
-            {
+            if (registrandoNombre==false){
                 salida+=directorio.getPos().get(i)+"-";
                 registrandoNombre = true;
             }
         }
-        Sector dir = new Sector(tamSectors,salida.toCharArray());
-        disco.escribirSector(0, dir);
+        Bloque dir = new Bloque(tamBloques,salida.toCharArray());
+
+        disco.escribirBloque(0, dir);
     }
     
-    public static void readAt(String nombre, int posInicio)
-    {
+    public static void readAt(String nombre, int posInicio){
         int i = 0;
-        boolean alerta = false;
+        boolean flag = false;
         
-        for(String name : directorio.getNombres())
-        {
-            if(name.equals(nombre))
-            {                
-                int posFCB = directorio.getPos().get(i);
-                Sector sectorfcb = disco.leerSector(posFCB);                  
-                FCB fcb = convertirSectorToFCB(sectorfcb);
+        for(String name : directorio.getNombres()){
+            if(name.equals(nombre)){
+                //Encontre el archivo!!!
                 
-                if (fcb.getTamañoArchivo()<posInicio)
-                {
+                int posFCB = directorio.getPos().get(i);
+                Bloque sectorfcb = disco.leerBloque(posFCB); //obtengo el FCB                    
+
+
+                FCB fcb = convertirBloqueToFCB(sectorfcb);
+                
+                if (fcb.getTamañoArchivo()<posInicio){
                     System.out.println("Posicion Incorrecta");
                     break;
                 }
@@ -481,86 +554,92 @@ public class ProyectoSO
                 System.out.println("Contenido del archivo desde byte: " + posInicio);
                 int contador = 1;
                 int min = 0;
-                int max = contador*tamSectors;
+                int max = contador*tamBloques;
                 
-                for (Integer id: fcb.getPosicion())
-                {
-                    Sector bloque = disco.leerSector(id);
-                    String contenido = String.valueOf(bloque.getContenido());
+                for (Integer id: fcb.getPosicion()){
                     
-                    if (posInicio<max && posInicio>=min)
-                    {
-                        int inicio = posInicio-min;
-                        imprimirSector(inicio,contenido);
+                    Bloque bloque = disco.leerBloque(id);
+                    String content = String.valueOf(bloque.getContenido());
+
+
+                    //segmentado
+                    if (posInicio<max && posInicio>=min){
+                        int begin = posInicio-min;
+                        imprimirBloque(begin,content);
                     }
-                    else
-                    {
-                        if (posInicio<min)
-                        {
-                            System.out.println(contenido);
+
+                    //completo
+                    else {
+                        if (posInicio<min){
+                            System.out.println(content);
                         }
+                        
                     }
                     min = max;
                     contador++;
-                    max = contador*tamSectors;
+                    max = contador*tamBloques;
                 }
-                alerta = true;
+                flag = true;
                 break;
             }
             i++;
         }
-        if(alerta == false)
-        {
-            System.out.println("El archivoexiste");
+        if(!flag){
+            System.out.println("El archivo que intenta eliminar no existe!");
         }
     }
   
-    public static void writeAt(String nombre, int pos, String escribir)
-    {
+    public static void writeAt(String nombre, int pos, String escribir){
         
         int i = 0;
-        boolean alerta = false;
-        FCB fcb = new FCB(tamSectors);
+        boolean flag = false;
+        FCB fcb = new FCB(tamBloques);
         
-        for(String name : directorio.getNombres())
-        {
-            if(name.equals(nombre))
-            {             
+        for(String name : directorio.getNombres()){
+            if(name.equals(nombre)){
+                //Encontre el archivo!!!
+                
                 int posFCB = directorio.getPos().get(i);
-                Sector sectorfcb = disco.leerSector(posFCB);                   
+                Bloque sectorfcb = disco.leerBloque(posFCB); //obtengo el FCB                    
 
-                fcb = convertirSectorToFCB(sectorfcb);
+                fcb = convertirBloqueToFCB(sectorfcb);
                 
                 int byteFinal = pos+escribir.length();
                 
-                if (fcb.getTamañoArchivo()<byteFinal)
-                {
-                    System.out.println("No hay espacio suficiente");
+                if (fcb.getTamañoArchivo()<byteFinal){
+                    System.out.println("No hay espacio suficiente para el texto ingresado");
                     break;
                 }
-                for (Integer id: fcb.getPosicion())
-                {
+                
+
+                for (Integer id: fcb.getPosicion()){
                     
-                    Sector bloque = disco.leerSector(id);
+                    Bloque bloque = disco.leerBloque(id);
                     bloque.setId(id);
-                    fcb.getSectors().add(bloque);
+                    fcb.getBloques().add(bloque);
                     
                 }
-                alerta = true;
+                flag = true;
                 break;
             }
             i++;
         }
         
+        
+        
         int inicioEscribir = pos;
-        int contadorSectors = 1;
-        for (Sector c: fcb.getSectors())
-        {
-            if (inicioEscribir<contadorSectors*tamSectors)
-            {
-                int disEscribir = (contadorSectors*tamSectors)-inicioEscribir;
-                if (disEscribir>escribir.length())
-                {
+        int contadorBloques = 1;
+        
+        
+        for (Bloque c: fcb.getBloques()){
+            
+            if (inicioEscribir<contadorBloques*tamBloques){
+                
+             
+                
+                int disEscribir = (contadorBloques*tamBloques)-inicioEscribir;
+                
+                if (disEscribir>escribir.length()){
                     String corto = escribir;
                     String antiguo = String.valueOf(c.getContenido()).substring(escribir.length());
                     String nuevo = corto+antiguo;
@@ -568,12 +647,11 @@ public class ProyectoSO
                     escribir = "";
                     
                     c.setContenido(nuevo.toCharArray());
-                    disco.escribirSector(c.getId(),c);
-                    inicioEscribir = contadorSectors*tamSectors;
+                    disco.escribirBloque(c.getId(),c);
+                    inicioEscribir = contadorBloques*tamBloques;
                     
                 }
-                else 
-                {
+                else {
                     String corto = escribir.substring(0, disEscribir);
                     String antiguo = String.valueOf(c.getContenido()).substring(0, inicioEscribir);
                     String nuevo = antiguo+corto;
@@ -581,102 +659,106 @@ public class ProyectoSO
                     escribir = escribir.substring(disEscribir);
 
                     c.setContenido(nuevo.toCharArray());
-                    disco.escribirSector(c.getId(),c);
-                    inicioEscribir = contadorSectors*tamSectors;
+                    disco.escribirBloque(c.getId(),c);
+                    inicioEscribir = contadorBloques*tamBloques;
                 }
-                contadorSectors++;
+                contadorBloques++;
             }
             
-            if (escribir.length()==0)
-            {
+            if (escribir.length()==0){
                 break;
             }
+            
         }
         
-        if(!alerta)
-        {
-            System.out.println("El archivo no existe");
+        if(!flag){
+            System.out.println("El archivo que intenta escribir no existe!");
         }
     }
      
-    public static void printFile(String nombre)
-    {
+    public static void printFile(String nombre){
+        
         int i = 0;
-        boolean alerta = false;
+        boolean flag = false;
         
         for(String name : directorio.getNombres()){
-            if(name.equals(nombre))
-            {
+            if(name.equals(nombre)){
+                //Encontre el archivo!!!
+                
                 int posFCB = directorio.getPos().get(i);
-                Sector sectorfcb = disco.leerSector(posFCB);                 
-                FCB fcb = convertirSectorToFCB(sectorfcb);
+                Bloque sectorfcb = disco.leerBloque(posFCB); //obtengo el FCB                    
+
+
+                FCB fcb = convertirBloqueToFCB(sectorfcb);
 
                 System.out.println("Contenido del archivo: " + nombre);
                 
-                fcb.getPosicion().stream().map((id) -> disco.leerSector(id)).forEachOrdered((bloqueLeido) ->
-                {
+                for (Integer id: fcb.getPosicion()){
+                    Bloque bloqueLeido = disco.leerBloque(id);
                     System.out.println(String.valueOf(bloqueLeido.getContenido()));
-                });
-                alerta = true;
+                }
+                flag = true;
                 break;
             }
             i++;
         }
-        if(!alerta)
-        {
-            System.out.println("El archivo no existe");
+        if(!flag){
+            System.out.println("El archivo que intenta eliminar no existe!");
         }
+        
+        
+          
     }
 
-    public static void list()
-    {
+    public static void list(){
         
         int i = 0;
         
-        if(!directorio.getNombres().isEmpty())
-        {
-            System.out.println("Nombre"+"\t"+"Tamaño"+"\t\t"+"Sectors");
-            for(String nombre : directorio.getNombres())
-            {
+        if(!directorio.getNombres().isEmpty()){
+            System.out.println("Nombre"+"\t"+"Tamaño"+"\t\t"+"Bloques");
+            for(String nombre : directorio.getNombres()){
+
                 int posFCB = directorio.getPos().get(i); 
-                Sector b = disco.leerSector(posFCB);
-                FCB fcb = convertirSectorToFCB(b);
+                Bloque b = disco.leerBloque(posFCB);
+                FCB fcb = convertirBloqueToFCB(b);
+                
                 System.out.println(nombre + "\t" + fcb.getTamañoArchivo() + " (bytes)" + "\t" + fcb.getPosicion().size());
                 i++;
             }
-            System.out.println("Fin del directorio");
+            System.out.println("Directorio listado exitosamente!");
         }
         else
-          System.out.println("Directorio esta vacio");
+          System.out.println("El directorio esta vacio");
     }
     
-    private static boolean compararVacio(String sector)
-    {
-        Sector vacio = new Sector(tamSectors);
+    //Retorna true si la linea "sector" corresponde a una linea vacia.
+    private static boolean compararVacio(String sector) {
+        Bloque vacio = new Bloque(tamBloques);
+        
         String sec = String.valueOf(vacio.getContenido());
-        if (sec.equals(sector))
-        {
+        
+        if (sec.equals(sector)){
             return true;
         }
         
         return false;
     }
 
-    private static void reescribirFAT()
-    {
+    private static void reescribirBitMap() {
+        
         String nuevo = "";
-        for(int i=0; i<tamSectors; i++)
-        {
-            nuevo+=String.valueOf(fat.getEspacioActual().get(i));
+        
+        for(int i=0; i<tamBloques; i++){
+            nuevo+=String.valueOf(bitMap.getEspacios().get(i));
         }
-        Sector org = new Sector(tamSectors);
+        
+        Bloque org = new Bloque(tamBloques);
         org.setContenido(nuevo.toCharArray());
-        disco.escribirSector(1, org);  
+        disco.escribirBloque(1, org);  
     }
 
-    private static FCB convertirSectorToFCB(Sector sectorfcb)
-    {
-        FCB salida = new FCB(tamSectors);
+    private static FCB convertirBloqueToFCB(Bloque sectorfcb) {
+        FCB salida = new FCB(tamBloques);
         salida.setContenido(sectorfcb.getContenido());
         
         char[] linea = sectorfcb.getContenido();
@@ -694,18 +776,15 @@ public class ProyectoSO
                 if (c!='-'){
                     fin++;
                 }
-                else 
-                {
-                    if (buscandoTamaño)
-                    {
+                else {
+                    if (buscandoTamaño){
                         tamaño = String.valueOf(linea).substring(inicio, fin);
                         salida.setTamañoArchivo(Integer.valueOf(tamaño));
                         fin++;
                         inicio=fin;
                         buscandoTamaño = false;
                     }
-                    else
-                    {
+                    else {
                         temporal = String.valueOf(linea).substring(inicio, fin);
                         referencias.add(Integer.valueOf(temporal));
                         fin++;
@@ -713,10 +792,8 @@ public class ProyectoSO
                     }
                 }
             }
-            else 
-            {
-                if (posicion==fin+1)
-                {
+            else {
+                if (posicion==fin+1){
                     temporal = String.valueOf(linea).substring(inicio, fin);
                     referencias.add(Integer.valueOf(temporal));
                 }
@@ -725,15 +802,15 @@ public class ProyectoSO
             posicion++;
         }
         
-        for (Integer referencia : referencias)
-        {
+        for (Integer referencia : referencias) {
             salida.getPosicion().add(referencia);
         }
+        
         
         return salida;
     }
 
-    private static void imprimirSector(int value, String contenido) {
+    private static void imprimirBloque(int value, String contenido) {
         char[] cont = contenido.toCharArray();
         
         for (int i = 0; i < cont.length; i++) {
